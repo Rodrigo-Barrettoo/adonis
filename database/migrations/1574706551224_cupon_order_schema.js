@@ -7,8 +7,8 @@ class CuponOrderSchema extends Schema {
   up() {
     this.create('cupon_order', (table) => {
       table.increments()
-      table.integer('coupon_id').usingned()
-      table.integer('order_id').usingned()
+      table.integer('coupon_id').unsigned()
+      table.integer('order_id').unsigned()
       table.decimal('discount', 12, 2).defaultTo(0.0)
 
       table.foreign('coupon_id').references('id').inTable('coupons').onDelete('cascade').onUpdate('cascade')

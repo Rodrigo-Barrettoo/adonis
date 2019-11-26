@@ -15,7 +15,7 @@ class UserSchema extends Schema {
               .unique()
 
           table.string('password', 60).notNullable()
-          table.integer('image_id').unsigner()
+          table.integer('image_id').unsigned()
           table.timestamps()
       })
   }
