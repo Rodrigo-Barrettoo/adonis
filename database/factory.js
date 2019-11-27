@@ -35,6 +35,5 @@ Factory.blueprint('App/Models/Product', (faker) => {
     name: faker.animal(),
     description: faker.sentence(),
     price: faker.floating({min: 0, max: 1000, fixed: 2}),
-    password: 'secret'
   }
 })

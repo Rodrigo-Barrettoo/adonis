@@ -54,6 +54,10 @@ class User extends Model {
     return this.belongsTo('App/Models/Coupon')
   }
 
+  static get dates() {
+    return ['created_at', 'updated_at']
+  }
+
 }
 
 module.exports = User

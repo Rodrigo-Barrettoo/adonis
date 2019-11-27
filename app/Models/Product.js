@@ -13,19 +13,19 @@ class Product extends Model {
   // relacionamento entre Categoria e Image de Destaque
   // Galeria de imagens do produtos
   images() {
-    return this.belongsTo('App/Models/Image')
+    return this.belongsToMany('App/Models/Image')
   }
 
   // relacionamento entre Categoria e Produtos
   // Galeria de imagens do produtos
   categories() {
-    return this.belongsTo('App/Models/Category')
+    return this.belongsToMany('App/Models/Category')
   }
 
   // relacionamento entre Produtos e Cupons de desconto
   // Galeria de imagens do produtos
   coupons() {
-    return this.belongsTo('App/Models/Coupon')
+    return this.belongsToMany('App/Models/Coupon')
   }
 
 }

@@ -10,7 +10,6 @@
 |
 */
 
-/** @type {import('@adonisjs/lucid/src/Factory')} */
 const Role = use('Role')
 
 class RoleSeeder {
@@ -23,7 +22,7 @@ class RoleSeeder {
 
     await  Role.create({
       name: 'Manager',
-      slug: 'admin',
+      slug: 'manager',
       description: 'Gerente da loja',
     })
 

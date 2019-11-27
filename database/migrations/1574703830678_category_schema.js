@@ -8,7 +8,7 @@ class CategorySchema extends Schema {
     this.create('categories', (table) => {
       table.increments()
       table.string('title', 100)
-      table.string('decripition', 254)
+      table.string('description', 254)
       table.integer('image_id').unsigned()
 
       table.foreign('image_id').references('id').inTable('images').onDelete('cascade').onUpdate('cascade')
