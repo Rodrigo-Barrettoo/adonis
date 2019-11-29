@@ -102,6 +102,7 @@ class CouponController {
       return response.status(201).send(coupon);
 
     } catch (e) {
+      await trx.rollback();
       return response.status(400).send({
         message: 'Não foi possível criar este cupom no momento'
       });
@@ -132,7 +133,62 @@ class CouponController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update({params, request, response}) {
+  async update({params: {id}, request, response}) {
+    const trx = await Database.beginTransaction();
+    var coupon = await Coupon.findOrFail(id);
+
+    var can_use_for = {client: false, product: false};
+
+    try {
+      const couponData = request.only([
+        'code',
+        'discount',
+        'valid_from',
+        'valid_until',
+        'quatity',
+        'type',
+        'recursive',
+      ]);
+
+      coupon.merge(couponData);
+
+      const {users, products} = request.only(['users', 'products']);
+      const services = new Service(coupon, trx);
+
+      if (users && users.length > 0) {
+        await services.syncUsers(users);
+        can_use_for.client = true;
+      }
+
+      if (products && products.length > 0) {
+        await services.syncProducts(products);
+        can_use_for.product = true;
+      }
+
+      if (can_use_for.product && can_use_for.client) {
+        coupon.can_use_for = 'product_client';
+
+      } else if (can_use_for.product && !can_use_for.client) {
+        coupon.can_use_for = 'product';
+
+      } else if (!can_use_for.product && can_use_for.client) {
+        coupon.can_use_for = 'client';
+
+      } else {
+        coupon.can_use_for = 'all';
+      }
+
+      await coupon.save(trx);
+      await trx.commit();
+
+      return response.status(200).send(coupon);
+
+    } catch (e) {
+      await trx.rollback();
+      return response.status(400).send({
+        message: 'Não foi possível atualiza este cupom no momento'
+      });
+    }
   }
 
   /**
