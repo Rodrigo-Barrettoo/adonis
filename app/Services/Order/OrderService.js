@@ -27,7 +27,7 @@ class OrderService {
     )
   }
 
-  async canApplyDicount(coupon) {
+  async canApplyDiscount(coupon) {
     const couponProducts = await Database.from('coupon_products').where('coupon_id', coupon.id).pluck('product_id');
     const couponClients = await Database.from('coupon_user').where('coupon_id', coupon.id).pluck('user_id');
 
